@@ -1,2 +1,2 @@
 # icons
-some icons that i use to display arch logo, sometimes python logo
+some icons that i use to display the layout and arch logo, sometimes python logo
