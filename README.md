@@ -15,4 +15,5 @@ Im using Arch Linux for quite some time, and qtile for my main window manager.
 - [cmus](https://github.com/cmus/cmus)
 - [neovim](https://github.com/neovim/neovim)
 - [Doom Emacs](https://github.com/hlissner/doom-emacs)
+- [qutebrowser](https://github.com/qutebrowser/qutebrowser/)
 - Etc.
