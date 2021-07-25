@@ -1,7 +1,7 @@
 # Dotfiles
 Dotfiles are your customization file that are used to settings/personalize your GNU/Linux system.
 
---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
 
 ### What's in here ?
 Basically this repo are some of my GNU/Linux configuration so feel free to check it out :)
@@ -17,7 +17,8 @@ Basically this repo are some of my GNU/Linux configuration so feel free to check
 Im using Arch Linux for quite some time, and qtile for my main window manager.
 Also, im a fan of xmonad as my window manager, but the dependecies is what i don't like :(
 
-- [Arch Linux](https://archlinux.org/download/)
+- [Arch GNU/Linux](https://archlinux.org/download/)
+- [Debian GNU/Linux](https://www.debian.org/distrib/)
 - [qtile](https://github.com/qtile/qtile)
 - [xmonad](https://github.com/xmonad/xmonad)
 - [picom](https://github.com/tryone144/picom/tree/feature/dual_kawase)
