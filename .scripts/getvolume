@@ -1,0 +1,1 @@
+pacmd list-sinks | awk '/\tvolume:/ { print $5 }' | tail -n+$((0+1)) | head -n1
