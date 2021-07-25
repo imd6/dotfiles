@@ -1,0 +1,76 @@
+Config { font = "xft:FontAwesome:style=solid:size=9.5, Ubuntu:size=9.5:Bold:antialias=true:hinting=true"
+       , additionalFonts = []
+       , bgColor = "#1d2021"
+       , fgColor = "#ebdbb2"
+       , alpha = 255
+       , position = Top
+       , lowerOnStart = True
+       , pickBroadest = False
+       , persistent = False
+       , hideOnStart = False
+       , iconRoot = "/home/imd/.xmonad/xpm/"  -- default: "."
+       , allDesktops = True
+       , overrideRedirect = True
+       -- Plugin Plugin yang diinginkan
+       , commands = 
+		[
+		-- Plugin Cuaca
+		  Run Weather		"WAAA" ["-t","<station>: <tempC>C",
+                                          	"-L","18","-H","25",
+                                          	"--normal","green",
+                                          	"--high","red",
+					  	"--low","lightblue"] 36000
+
+		-- Plugin StdinReader
+		    , Run UnsafeStdinReader
+
+        	-- network activity monitor (dynamic interface resolution)
+        	, Run DynNetwork     [ "--template" , ": <rx>kB/s : <tx>kB/s"
+                             		, "--Low"      , "1000"       -- units: B/s
+                             		, "--High"     , "5000"       -- units: B/s
+                             		, "--low"      , "#ebdbb2"
+                             		, "--normal"   , "#ebdbb2"
+                             		, "--high"     , "#b8bb26"
+                             		] 10
+
+		-- Plugin Processor, RAM dan Swap
+                    , Run Cpu		["-t"," cpu: <total>%"
+		    			,"-L","60","-H","80"
+					,"--normal","#b8bb26"
+					,"--high","#fb4934"] 10
+                    , Run Memory	["-t"," mem: <usedratio>%"] 10
+                    , Run Swap		[] 10
+
+		-- Plugin Battery
+		, Run Battery		[ "--template" , " batt: <acstatus>"
+					, "--Low"      , "20"	-- units: %
+					, "--High"     , "70"	-- units: %
+					, "--low"      , "#fb4934"
+					, "--normal"   , "#fabd2f"
+					, "--high"     , "#b8bb26"
+
+					,"--" -- opsi spesifik battery
+						-- Status Discharged
+						, "-o"	, "<left>%"
+						-- Status Mengisi
+						, "-O"	, "<left>% "
+						-- Status Penuh
+						, "-i"	, "<left>%"
+
+					] 20
+
+		-- Plugin Tanggal
+                    , Run Date		" date: %_d %b %Y (%H:%M)" "date" 50
+	
+		-- Plugin Sound
+		   , Run Com "/bin/bash" ["-c", "~/.scripts/getvolume" ] "myvolume" 12
+	
+                    ]
+
+	-- Layout
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "<icon=haskell_20.xpm/> <fc=#504945>|</fc> %UnsafeStdinReader% }{ %dynnetwork%  <fc=#504945>|</fc>  %cpu%  <fc=#504945>|</fc>  %memory%  <fc=#504945>|</fc>  vol: %myvolume%   <fc=#504945>|</fc>  %battery%  <fc=#504945>|</fc>  %date%"
+       
+       }
+
