@@ -4,16 +4,14 @@ import re
 import socket
 import subprocess
 import arcobattery
-
-from custom.bsp import Bsp as CustomBsp
-
-
 from libqtile import qtile
 from libqtile.config import KeyChord, Key, Screen, Group, Drag, Click, Match
 from libqtile.command import lazy
 from libqtile import layout, bar, widget, hook
 from libqtile.lazy import lazy
 from typing import List  # noqa: F401
+from custom.bsp import Bsp as CustomBsp
+
 
 mod = "mod4"                                     # Sets mod key to SUPER/WINDOWS
 myTerm = "alacritty"                             # My terminal of choice
@@ -194,7 +192,7 @@ for i, (name, kwargs) in enumerate(group_names, 1):
     keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group
 
-layout_theme = {"border_width": 2,
+layout_theme = {"border_width": 1,
                 "margin": 12,
                 "border_focus": "fe8019",
                 "border_normal": "1D2021"
@@ -210,8 +208,7 @@ layouts = [
     layout.MonadTall(**layout_theme),
     layout.MonadWide(**layout_theme),
     layout.Max(**layout_theme),
-    CustomBsp(**layout_theme, fair = False),
-    #layout.Bsp(**layout_theme),
+    CustomBsp(**layout_theme),
     #layout.Tile(shift_windows=True, **layout_theme),
     #layout.Stack(num_stacks=2),
     #layout.TreeTab(
@@ -249,7 +246,7 @@ prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
 ##### DEFAULT WIDGET SETTINGS #####
 widget_defaults = dict(
     font="JetBrainsMono Nerd Font Bold",
-    #font="Ubuntu Bold",
+    #font="SauceCodePro Nerd Font Bold",
     fontsize = 12,
     padding = 2,
     background=colors[2]
@@ -264,8 +261,18 @@ def init_widgets_list():
                        foreground = colors[2],
                        background = colors[0]
                        ),
+            #  widget.TextBox(
+            #           fontsize = 20,
+            #           text = "",
+                        #text = "",
+            #           foreground = colors[6],
+            #           background = colors[0],
+		    #           padding = 8,
+            #           mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\"')}
+            #           ),
               widget.Image(
                        filename = "~/.config/qtile/icons/archicon-orange.png",
+                       background = colors[0],
                        mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\"')}
                        ),
               widget.Sep(
@@ -333,7 +340,7 @@ def init_widgets_list():
                        text = "|",
                        foreground = colors[10],  
                        background = colors[0],
-	               padding = 3
+		               padding = 3
                        ),
               widget.WindowName(
                        foreground = colors[6],
@@ -341,12 +348,12 @@ def init_widgets_list():
                        padding = 0
                        ),
               #Separation between left and right
-    	      widget.Systray(
+    	     widget.Systray(
 		               icon_size = 16,
                        background = colors[0],
                        padding = 3
                        ),
-              widget.TextBox(
+            widget.TextBox(
                        text = "|",
                        foreground = colors[10],  
                        background = colors[0],
@@ -403,7 +410,8 @@ def init_widgets_list():
                        text = "mem:",
                        foreground = colors[3],
                        background = colors[0],
-		       padding = 0
+                       mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
+		               padding = 0
                        ),
               widget.Memory(
                        format = '{MemPercent}%',
@@ -416,20 +424,22 @@ def init_widgets_list():
                        text = "|",
                        foreground = colors[10],
                        background = colors[0],
-		       padding = 3
+		               padding = 3
                        ),
               widget.TextBox(
                        fontsize = 14,
                        text = "",
                        foreground = colors[4],
                        background = colors[0],
-		       padding = 5
+                       mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('pavucontrol')},
+		               padding = 5
                        ),
-              widget.TextBox(
+         widget.TextBox(
                        text = "vol:",
                        foreground = colors[4],
                        background = colors[0],
-		       padding = 3
+                       mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('pavucontrol')},
+	                   padding = 3
                        ),
 	    #  widget.Volume(
             #            theme_path = '/home/ibnu/.config/qtile/icons/volume-icons',
@@ -440,8 +450,15 @@ def init_widgets_list():
               widget.Volume(
                         foreground = colors[4],
                         background = colors[0],
-                        padding = 2
+                        padding = 3
                         ),
+              widget.TextBox(
+                       text = "|",
+                       foreground = colors[10],
+                       background = colors[0],
+	               padding = 3
+                       ),
+
           #     widget.BatteryIcon(
           #              battery = "BAT0",
           #              scale = 0.7,
@@ -458,23 +475,17 @@ def init_widgets_list():
            #              update_interval = 2,
            #              background = colors[0]
            #              ),
-	     widget.TextBox(
-                       text = "|",
-                       foreground = colors[10],
-                       background = colors[0],
-                       padding = 3
-                       ),
-        
-      #  widget.GenPollText(update_interval=1,
-      #             func=lambda: subprocess.check_output(os.path.expanduser("~/.config/qtile/scripts/sbattery"))
-      #             ),
-
-      #  widget.TextBox(
-      #                 text = "|",
-      #                 foreground = colors[10],
-      #                 background = colors[0],
-      #                 padding = 3
-      #                 ), 
+           #   widget.Battery(
+           #             battery = "BAT0",
+           #             charge_char = '',
+           #             discharge_char = "",
+           #             #format ='{char} {percent:2.0%}',
+           #             #format ='{char} {percent:2.0%} {hour:d}h:{min:02d}m',
+           #             format ='{percent:2.0%}',
+           #             foreground = colors[5],
+           #             padding = 3,
+           #             background = colors[0]
+           #             ),
 	     widget.TextBox(
 		       fontsize = 15,
                        text = "",
@@ -483,10 +494,10 @@ def init_widgets_list():
                        padding = 5
                        ),
               widget.Clock(
-                       mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e calcurse')},
                        foreground = colors[8],
                        background = colors[0],
                        padding = 5,
+                       mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e calcurse')},
                        format = "%a, %d %b %Y [ %H:%M ]"
                        ),
               ]

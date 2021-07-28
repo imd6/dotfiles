@@ -4,13 +4,15 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
+#colorscript -r
+./fm6000 -r -c random -f tux.txt -n
 
 alias ls='ls --color=auto'
 alias gantinvidia='optimus-manager --switch nvidia'
 alias warnamalam='redshift -l -90.0:90.0 -t 3400:3400 &'
 alias bchrome='google-chrome-stable --enable-features=WebUIDarkMode --force-dark-mode'
-PS1='[\u@\h \W]\$ '
-
+#PS1='[\u@\h \W]\$ '
+PS1='\W -> '
 
 
 
