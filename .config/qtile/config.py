@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 import os
 import re
+import psutil
 import socket
 import subprocess
-import arcobattery
 from libqtile import qtile
 from libqtile.config import KeyChord, Key, Screen, Group, Drag, Click, Match
 from libqtile.command import lazy
 from libqtile import layout, bar, widget, hook
 from libqtile.lazy import lazy
 from typing import List  # noqa: F401
-from custom.bsp import Bsp as CustomBsp
 
+from battery import bat_stat
 
 mod = "mod4"                                     # Sets mod key to SUPER/WINDOWS
 myTerm = "alacritty"                             # My terminal of choice
@@ -208,7 +208,7 @@ layouts = [
     layout.MonadTall(**layout_theme),
     layout.MonadWide(**layout_theme),
     layout.Max(**layout_theme),
-    CustomBsp(**layout_theme),
+    layout.Bsp(**layout_theme),
     #layout.Tile(shift_windows=True, **layout_theme),
     #layout.Stack(num_stacks=2),
     #layout.TreeTab(
@@ -347,6 +347,7 @@ def init_widgets_list():
                        background = colors[0],
                        padding = 0
                        ),
+             
               #Separation between left and right
     	     widget.Systray(
 		               icon_size = 16,
@@ -456,36 +457,33 @@ def init_widgets_list():
                        text = "|",
                        foreground = colors[10],
                        background = colors[0],
-	               padding = 3
+	                   padding = 3
                        ),
-
-          #     widget.BatteryIcon(
-          #              battery = "BAT0",
-          #              scale = 0.7,
-          #              theme_path = '/home/ibnu/.config/qtile/icons/battery-icons',
-          #              padding = 0,
-          #              update_interval = 2,
-          #              background = colors[0]
-          #              ),
-	   #    arcobattery.BatteryIcon(
-           #              padding=0,
-           #              scale=0.7,
-           #              y_poss=2,
-           #              theme_path="/home/ibnu/.config/qtile/icons/battery_icons_horiz",
-           #              update_interval = 2,
-           #              background = colors[0]
-           #              ),
-           #   widget.Battery(
-           #             battery = "BAT0",
-           #             charge_char = '',
-           #             discharge_char = "",
-           #             #format ='{char} {percent:2.0%}',
-           #             #format ='{char} {percent:2.0%} {hour:d}h:{min:02d}m',
-           #             format ='{percent:2.0%}',
-           #             foreground = colors[5],
-           #             padding = 3,
-           #             background = colors[0]
-           #             ),
+             widget.GenPollText(
+                      background=colors[0],
+                      foreground=colors[5],
+                      fontsize=13.7,
+                      func=bat_stat,
+                      update_interval=3,
+                      mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('mate-power-preferences')},
+                      padding=5
+                      ),
+              widget.Battery(
+                        #battery = "BAT0",
+                        #format ='{char} {percent:2.0%}',
+                        #format ='{char} {percent:2.0%} {hour:d}h:{min:02d}m',
+                        format ='batt: {percent:2.0%}',
+                        foreground = colors[5],
+                        padding = 3,
+                        mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('mate-power-preferences')},
+                        background = colors[0]
+                        ),
+              widget.TextBox(
+                       text = "|",
+                       foreground = colors[10],
+                       background = colors[0],
+	                   padding = 3
+                       ),
 	     widget.TextBox(
 		       fontsize = 15,
                        text = "",
