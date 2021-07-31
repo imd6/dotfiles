@@ -193,7 +193,7 @@ for i, (name, kwargs) in enumerate(group_names, 1):
     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group
 
 layout_theme = {"border_width": 1,
-                "margin": 12,
+                "margin":12,
                 "border_focus": "fe8019",
                 "border_normal": "1D2021"
                 }
@@ -475,6 +475,7 @@ def init_widgets_list():
                         format ='batt: {percent:2.0%}',
                         foreground = colors[5],
                         padding = 3,
+                        update_interval=3,
                         mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('mate-power-preferences')},
                         background = colors[0]
                         ),
@@ -561,7 +562,8 @@ main = None
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
-floating_layout = layout.Floating(float_rules=[
+floating_layout = layout.Floating(**layout_theme
+   ,float_rules=[
     # Run the utility of `xprop` to see the wm class and name of an X client.
     *layout.Floating.default_float_rules,
     Match(wm_class='confirm'),

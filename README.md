@@ -7,6 +7,9 @@ Dotfiles are your customization file that are used to settings/personalize your 
 Basically this repo are some of my GNU/Linux configuration so feel free to check it out :)
 
 ### Sreenshot
+![ssbaru](https://user-images.githubusercontent.com/66425312/127732999-841d9108-1b46-4af4-9123-0882da540a7f.png)
+
+old :
 ![ss](https://user-images.githubusercontent.com/66425312/126868025-7be726ae-51e8-4205-99a2-f954d2f46653.png)
 
 ![Xmonad on debian](https://user-images.githubusercontent.com/66425312/126898006-e2ad49b4-f7ef-4a54-a7fd-7596c753cd6d.png)
