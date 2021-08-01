@@ -31,7 +31,7 @@ keys = [
             lazy.window.kill(),
             desc='Kill active window'
             ),
-        Key([mod], "p",
+        Key([mod, "shift"], "Return",
             #lazy.spawn("dmenu_run -p 'Run: '"),
             lazy.spawn("rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\""),
             desc='Run Launcher'
@@ -141,10 +141,6 @@ keys = [
             desc='Toggle between split and unsplit sides of stack'
             ),
     ### Additional
-        Key([mod, "shift"], "s",
-            lazy.spawn("/home/ibnu/.scripts/dstartmenu"),
-            desc='Launches Start menu script'
-            ),
         Key([mod], "Print",
             lazy.spawn("scrot screen_%Y-%m-%d-%H-%M-%S.png -d 1 -e 'mv $f /home/ibnu/Pictures/Screenshot'"),
             desc='Screenshot Whole Display'
@@ -177,6 +173,25 @@ keys = [
             lazy.spawn("systemctl suspend"),
             desc='Sleep/Suspend'
             ),
+        #KeyChord for emacs stuff
+        KeyChord([mod],"a", [
+             Key([], "e",
+                 lazy.spawn("emacsclient -c -a 'emacs'"),
+                 desc='Launch Emacs'
+                 ),
+             Key([], "c",
+                 lazy.spawn("google-chrome-stable --enable-features=WebUIDarkMode --force-dark-mode"),
+                 desc='Launch dmenu Start Menu'
+                 )
+             ]),
+        #KeyChord for dmenu scripts
+        KeyChord([mod], "p", [
+             Key([], "s",
+                 lazy.spawn("/home/ibnu/.scripts/dstartmenu"),
+                 desc='Launch dmenu Start Menu'
+                 )
+             ])
+
 ]
 
 group_names = [("WWW", {'layout': 'monadtall'}),
@@ -253,25 +268,23 @@ extension_defaults = widget_defaults.copy()
 
 def init_widgets_list():
     widgets_list = [
-            #widget.Sep(
-                #linewidth = 0,
-                #padding = 3,
-                #foreground = colors[2],
-                #background = colors[0]
-                #),
-            widget.TextBox(
-                fontsize = 17,
-                text = "",
-                #text = "",
-                foreground = colors[6],
-                padding = 8,
-                mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\"')}
+            widget.Sep(
+                linewidth = 0,
+                padding = 5,
+                foreground = colors[2],
                 ),
-            #widget.Image(
-                #filename = "~/.config/qtile/icons/archicon-orange.png",
-                #background = colors[0],
+            #widget.TextBox(
+                #fontsize = 17,
+                #text = "",
+                #text = "",
+                #foreground = colors[6],
+                #padding = 8,
                 #mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\"')}
                 #),
+            widget.Image(
+                filename = "~/.config/qtile/icons/archicon-orange.png",
+                mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\"')}
+                ),
             widget.Sep(
                 linewidth = 0,
                 padding = 3,
@@ -318,24 +331,23 @@ def init_widgets_list():
                 foreground = colors[10],
                 padding = 0
                 ),
-            #widget.CurrentLayoutIcon(
-                #custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
-                #foreground = colors[2],
-                #background = colors[0],
-                #padding = 1,
-                #scale = 0.7
-                #),
-            widget.WindowCount(
+            widget.CurrentLayoutIcon(
+                custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
                 foreground = colors[2],
-                padding = 3,
-                show_zero = True,
-                font = 'Ubuntu Bold'
+                padding = 1,
+                scale = 0.7
                 ),
-            widget.TextBox(
-                text = "|",
-                foreground = colors[10],
-                padding = 0
-                ),
+            #widget.WindowCount(
+                #foreground = colors[2],
+                #padding = 3,
+                #show_zero = True,
+                #font = 'Ubuntu Bold'
+                #),
+            #widget.TextBox(
+                #text = "|",
+                #foreground = colors[10],
+                #padding = 0
+                #),
             widget.CurrentLayout(
                 foreground = colors[2],
                 padding = 3
@@ -343,11 +355,11 @@ def init_widgets_list():
             widget.TextBox(
                 text = "|",
                 foreground = colors[10],
-                padding = 3
+                padding = 0
                 ),
             widget.WindowName(
                 foreground = colors[6],
-                padding = 0
+                padding = 3
                 ),
              
               #Separation between left and right
@@ -479,6 +491,7 @@ def init_widgets_list():
                 padding = 5,
                 mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e calcurse')},
                 format = "%a, %d %b %Y [ %H:%M ]"
+                #format = "%b %d %Y [ %H:%M ]"
                 ),
               ]
     return widgets_list
@@ -488,7 +501,7 @@ def init_widgets_screen():
     return widgets_screen
 
 def init_screens():
-    return [Screen(top=bar.Bar(widgets=init_widgets_screen(), opacity=1.0, size=20, background=colors[0]))]
+    return [Screen(top=bar.Bar(widgets=init_widgets_screen(), opacity=1.0, size=20, background="#282828"))]
 
 if __name__ in ["config", "__main__"]:
     screens = init_screens()
