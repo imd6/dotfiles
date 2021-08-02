@@ -209,18 +209,6 @@ keys = [
 
 ]
 
-workspaces = [
-    {"name": "WWW", "key": "1", "matches": [Match(wm_class="qutebrowser"),
-                                            Match(wm_class="Google-chrome")]},
-
-    {"name": "DEV", "key": "2", "matches": [Match(wm_class="code"),
-                                            Match(wm_class="Emacs")]},
-
-    {"name": "DOC", "key": "3", "matches": [Match(wm_class="libreoffice")]},
-    {"name": "VID", "key": "4", "matches": [Match(wm_class="mpv")]},
-    {"name": "GFX", "key": "5", "matches": [Match(wm_class="gimp")]}
-]
-
 groups = [
     ScratchPad(
         "spd",
@@ -245,27 +233,25 @@ groups = [
             ),
         ],
     ),
+    Group("1", label="WWW", layout="monadtall", matches =[Match(wm_class=["qutebrowser"]),
+                                                          Match(wm_class=["Google-chrome"])
+                                                          ]),
+    Group("2", label="DEV", layout="monadtall", matches =[Match(wm_class=["Emacs"]),
+                                                          Match(wm_class=["code"])
+                                                          ]),
+    Group("3", label="DOC", layout="monadtall", matches =[Match(wm_class=["libreoffice"])
+                                                          ]),
+    Group("4", label="VID", layout="monadtall", matches =[Match(wm_class=["mpv"])
+                                                          ]),
+    Group("5", label="GFX", layout="monadtall", matches =[Match(wm_class=["gimp"])
+                                                          ]),
+
+
 ]
 
-for workspace in workspaces:
-    matches = workspace["matches"] if "matches" in workspace else None
-    groups.append(Group(workspace["name"], matches=matches, layout="monadtall"))
-    keys.append(
-        Key(
-            [mod],
-            workspace["key"],
-            lazy.group[workspace["name"]].toscreen(),
-            desc="Focus this desktop",
-        )
-    )
-    keys.append(
-        Key(
-            [mod, "shift"],
-            workspace["key"],
-            lazy.window.togroup(workspace["name"]),
-            desc="Move focused window to another group",
-        )
-    )
+for i in range(len(groups)):
+   keys.append(Key([mod], str((i)), lazy.group[str(i)].toscreen()))
+   keys.append(Key([mod, "shift"], str((i)), lazy.window.togroup(str(i))))
 
 # Old define Workspaces
 #group_names = [("WWW", {'layout': 'monadtall'}),
@@ -282,13 +268,12 @@ for workspace in workspaces:
 #    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group
 
 layout_theme = {"border_width": 1,
-                "margin":12,
+                "margin":8,
                 "border_focus": "fe8019",
                 "border_normal": "1D2021"
                 }
 
 layout_float = {"border_width": 1,
-                "margin":12,
                 "border_focus": "fb4934",
                 "border_normal": "1D2021"
                 }
