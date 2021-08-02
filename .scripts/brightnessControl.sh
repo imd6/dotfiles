@@ -3,7 +3,7 @@
 # Brightness notification: dunst
 
 
-icon_path=/usr/share/icons/Papirus/symbolic/status/
+icon_path=/home/ibnu/.local/share/icons/Gruvbox-Material-Dark/symbolic/status/
 notify_id=817
 
 

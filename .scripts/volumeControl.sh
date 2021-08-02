@@ -4,7 +4,7 @@
 # inspired by gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a
 
 
-icon_path=/usr/share/icons/Gruvbox-icons/symbolic/status/
+icon_path=/home/ibnu/.local/share/icons/Gruvbox-Material-Dark/symbolic/status/
 notify_id=506
 sink_nr=0   # use `pacmd list-sinks` to find out sink_nr
 
@@ -47,11 +47,11 @@ function mute_notification {
 
 case $1 in
     up)
-        pactl set-sink-volume $sink_nr +5%
+        pactl set-sink-volume $sink_nr +8%
         volume_notification
         ;;
     down)
-        pactl set-sink-volume $sink_nr -5%
+        pactl set-sink-volume $sink_nr -8%
         volume_notification
         ;;
     mute)

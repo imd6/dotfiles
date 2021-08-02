@@ -192,13 +192,21 @@ keys = [
              Key([], "s",
                  lazy.spawn("/home/ibnu/.scripts/dstartmenu"),
                  desc='Launch dmenu Start Menu'
-                 )     
+                 ),
+             Key([], "m",
+                 lazy.spawn("/home/ibnu/.scripts/dmtpfs"),
+                 desc='Launch dmenu Start Menu'
+                 )
              ]),
     ###KeyChoerd For Scratchpads
         KeyChord([mod], "s",[
             Key([], "m",
                   lazy.group["spd"].dropdown_toggle("music"),
                   desc='Open cmus on scratchpads'
+                  ),
+            Key([], "n",
+                  lazy.group["spd"].dropdown_toggle("wp"),
+                  desc='Open nitrogen on scratchpads'
                   ),
             Key([], "f",
                   lazy.group["spd"].dropdown_toggle("fm"),
@@ -229,6 +237,14 @@ groups = [
                 height=0.6,
                 on_focus_lost_hide=False,
                 opacity=0.8,
+                warp_pointer=False,
+            ),
+           DropDown(
+                "wp",
+                "nitrogen",
+                height=0.7,
+                on_focus_lost_hide=False,
+                opacity=0.9,
                 warp_pointer=False,
             ),
         ],

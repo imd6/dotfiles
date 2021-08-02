@@ -1,5 +1,5 @@
 #!/bin/sh
-Dir=$HOME/cell/
+Dir=/home/ibnu/cell/
 
 # Make the cell directory if it doesn't exist
 if [ ! -d "$Dir" ]; then
@@ -13,7 +13,7 @@ if [ ! -n "$Devices" ]; then
 	notify-send "No devices found"
 	exit
 else
-  Device=$(echo "$Devices" | dmenu -p "Select device:" || notify-send "No device selected")
+  Device=$(echo "$Devices" | rofi -dmenu -p "Select device:" || notify-send "No device selected")
   Id=${Device%%:*}
   Name=${Device##*: }
 	if [ ! -d "$Dir$Name" ]; then
