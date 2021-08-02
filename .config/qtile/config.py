@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 import os
 import re
-import psutil
 import socket
 import subprocess
+#import psutil
+import json
+
+from typing import List  # noqa: F401
 from libqtile import qtile
-from libqtile.config import KeyChord, Key, Screen, Group, Drag, Click, Match
+from libqtile.config import (KeyChord,Key,Screen,Group,Drag,Click,Match,ScratchPad,DropDown,Match)
 from libqtile.command import lazy
 from libqtile import layout, bar, widget, hook
-from libqtile.lazy import lazy
-from typing import List  # noqa: F401
+#from libqtile.lazy import lazy
 
 from battery import bat_stat
 
@@ -173,7 +175,7 @@ keys = [
             lazy.spawn("systemctl suspend"),
             desc='Sleep/Suspend'
             ),
-        #KeyChord for emacs stuff
+    ###KeyChord for application stuff
         KeyChord([mod],"a", [
              Key([], "e",
                  lazy.spawn("emacsclient -c -a 'emacs'"),
@@ -184,31 +186,110 @@ keys = [
                  desc='Launch dmenu Start Menu'
                  )
              ]),
-        #KeyChord for dmenu scripts
+
+    ###KeyChord for dmenu scripts
         KeyChord([mod], "p", [
              Key([], "s",
                  lazy.spawn("/home/ibnu/.scripts/dstartmenu"),
                  desc='Launch dmenu Start Menu'
-                 )
-             ])
+                 )     
+             ]),
+    ###KeyChoerd For Scratchpads
+        KeyChord([mod], "s",[
+            Key([], "m",
+                  lazy.group["spd"].dropdown_toggle("music"),
+                  desc='Open cmus on scratchpads'
+                  ),
+            Key([], "f",
+                  lazy.group["spd"].dropdown_toggle("fm"),
+                  desc='Open vifm on scratchpads'
+                  )
+             ]),
+
 
 ]
 
-group_names = [("WWW", {'layout': 'monadtall'}),
-               ("DEV", {'layout': 'monadtall'}),
-               ("DOC", {'layout': 'monadtall'}),
-               ("MUS", {'layout': 'monadtall'}),
-               ("GFX", {'layout': 'monadtall'})]
+workspaces = [
+    {"name": "WWW", "key": "1", "matches": [Match(wm_class="qutebrowser"),
+                                            Match(wm_class="Google-chrome")]},
 
-groups = [Group(name, **kwargs) for name, kwargs in group_names]
+    {"name": "DEV", "key": "2", "matches": [Match(wm_class="code"),
+                                            Match(wm_class="Emacs")]},
 
-for i, (name, kwargs) in enumerate(group_names, 1):
-    keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
-    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group
+    {"name": "DOC", "key": "3", "matches": [Match(wm_class="libreoffice")]},
+    {"name": "VID", "key": "4", "matches": [Match(wm_class="mpv")]},
+    {"name": "GFX", "key": "5", "matches": [Match(wm_class="gimp")]}
+]
+
+groups = [
+    ScratchPad(
+        "spd",
+        [
+            # define a drop down.
+            # it is placed in the upper third of screen by default.
+            DropDown(
+                "music",
+                myTerm + " -e cmus",
+                height=0.6,
+                on_focus_lost_hide=False,
+                opacity=0.8,
+                warp_pointer=False,
+            ),
+           DropDown(
+                "fm",
+                myTerm + " -e vifm",
+                height=0.6,
+                on_focus_lost_hide=False,
+                opacity=0.8,
+                warp_pointer=False,
+            ),
+        ],
+    ),
+]
+
+for workspace in workspaces:
+    matches = workspace["matches"] if "matches" in workspace else None
+    groups.append(Group(workspace["name"], matches=matches, layout="monadtall"))
+    keys.append(
+        Key(
+            [mod],
+            workspace["key"],
+            lazy.group[workspace["name"]].toscreen(),
+            desc="Focus this desktop",
+        )
+    )
+    keys.append(
+        Key(
+            [mod, "shift"],
+            workspace["key"],
+            lazy.window.togroup(workspace["name"]),
+            desc="Move focused window to another group",
+        )
+    )
+
+# Old define Workspaces
+#group_names = [("WWW", {'layout': 'monadtall'}),
+#               ("DEV", {'layout': 'monadtall'}),
+#               ("DOC", {'layout': 'monadtall'}),
+#               ("MUS", {'layout': 'monadtall'}),
+#               ("GFX", {'layout': 'monadtall'})]
+#
+#groups = [Group(name) for name, kwargs in group_names]
+#
+#
+#for i, (name, kwargs) in enumerate(group_names, 1):
+#    keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
+#    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group
 
 layout_theme = {"border_width": 1,
                 "margin":12,
                 "border_focus": "fe8019",
+                "border_normal": "1D2021"
+                }
+
+layout_float = {"border_width": 1,
+                "margin":12,
+                "border_focus": "fb4934",
                 "border_normal": "1D2021"
                 }
 
@@ -239,7 +320,7 @@ layouts = [
     #     section_top = 10,
     #     panel_width = 320
     #     ),
-    layout.Floating(**layout_theme)
+    layout.Floating(**layout_float)
 ]
 
 colors = [["#1D2021", "#1D2021"], # dark bg
@@ -285,9 +366,28 @@ def init_widgets_list():
                 filename = "~/.config/qtile/icons/archicon-orange.png",
                 mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\"')}
                 ),
-            widget.Sep(
-                linewidth = 0,
-                padding = 3,
+            widget.TextBox(
+                text = "|",
+                foreground = colors[10],
+                padding = 3
+                ),
+            widget.GroupBox(
+                font = "Ubuntu Bold",
+                fontsize = 10,
+                margin_y = 3,
+                margin_x = 0,
+                padding_y = 5,
+                padding_x = 3,
+                borderwidth = 3,
+                active = colors[6],
+                inactive = colors[2],
+                rounded = False,
+                highlight_color = colors[10],
+                highlight_method = "line",
+                this_current_screen_border = colors[6],
+                this_screen_border = colors [10],
+                other_current_screen_border = colors[6],
+                other_screen_border = colors[10],
                 foreground = colors[2],
                 ),
             #widget.GroupBox(
@@ -301,31 +401,11 @@ def init_widgets_list():
                 #active = colors[6],
                 #inactive = colors[2],
                 #rounded = False,
-                #highlight_color = colors[10],
-                #highlight_method = "line",
-                #this_current_screen_border = colors[1],
-                #this_screen_border = colors [5],
-                #other_current_screen_border = colors[2],
-                #other_screen_border = colors[0],
+                #this_current_screen_border = colors[10],
+                #highlight_color = colors[2],
+                #highlight_method = "block",
                 #foreground = colors[2],
-                #background = colors[10]
                 #),
-            widget.GroupBox(
-                font = "Ubuntu Bold",
-                fontsize = 10,
-                margin_y = 3,
-                margin_x = 0,
-                padding_y = 5,
-                padding_x = 3,
-                borderwidth = 3,
-                active = colors[6],
-                inactive = colors[2],
-                rounded = False,
-                this_current_screen_border = colors[10],
-                highlight_color = colors[2],
-                highlight_method = "block",
-                foreground = colors[2],
-                ),
             widget.TextBox(
                 text = "|",
                 foreground = colors[10],
@@ -549,7 +629,7 @@ main = None
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
-floating_layout = layout.Floating(**layout_theme
+floating_layout = layout.Floating(**layout_float
    ,float_rules=[
     # Run the utility of `xprop` to see the wm class and name of an X client.
     *layout.Floating.default_float_rules,
