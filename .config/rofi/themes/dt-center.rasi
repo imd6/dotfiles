@@ -9,8 +9,8 @@
     background-color:            #282828;
     border-color:                #282828;
     text-color:                  #ebdbb2;
-    font:                        "JetBrainsMono Nerd Font Bold 9";
-    prompt-font:                 "JetBrainsMono Nerd Font BOld 9";
+    font:                        "Hack Nerd Font Bold 9";
+    prompt-font:                 "Hack Nerd Font BOld 9";
     prompt-background:           #fe8019;
     prompt-foreground:           #282828;
     prompt-padding:              4px;

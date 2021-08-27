@@ -7,23 +7,28 @@ Dotfiles are your customization file that are used to settings/personalize your 
 Basically this repo are some of my GNU/Linux configuration so feel free to check it out :)
 
 ### Sreenshot
+
+#### Xmonad
+![newxmonad](https://user-images.githubusercontent.com/66425312/131083459-14802f2a-efa1-4fd2-8498-044a215be617.png)
+
+
+#### Qtile
 ![ssbaru](https://user-images.githubusercontent.com/66425312/127732999-841d9108-1b46-4af4-9123-0882da540a7f.png)
 
-old :
-![ss](https://user-images.githubusercontent.com/66425312/126868025-7be726ae-51e8-4205-99a2-f954d2f46653.png)
-
-![Xmonad on debian](https://user-images.githubusercontent.com/66425312/126898006-e2ad49b4-f7ef-4a54-a7fd-7596c753cd6d.png)
 
 ---------------------------------------------------------------------------------------------------------
 
 ### Software that i use
-Im using Arch Linux for quite some time, and qtile for my main window manager.
-Also, im a fan of xmonad as my window manager, but the dependecies is what i don't like :(
+Im using Arch Linux for quite some time.
+Currently Xmonad is my new window manager, love it so much.
+If you guys dont like the haskell dependencies, maybe you can install xmonad and xmobar through [stack-static](https://aur.archlinux.org/packages/stack-static)
+And the tutorial is [here.](https://brianbuccola.com/how-to-install-xmonad-and-xmobar-via-stack/) works like charm!
 
 - [Arch GNU/Linux](https://archlinux.org/download/)
 - [Debian GNU/Linux](https://www.debian.org/distrib/)
-- [qtile](https://github.com/qtile/qtile)
 - [xmonad](https://github.com/xmonad/xmonad)
+- [xmobar](https://github.com//xmobar)
+- [qtile](https://github.com/qtile/qtile)
 - [picom](https://github.com/tryone144/picom/tree/feature/dual_kawase)
 - [cmus](https://github.com/cmus/cmus)
 - [neovim](https://github.com/neovim/neovim)

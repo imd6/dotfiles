@@ -6,12 +6,12 @@
  */
 
 * {
-    background-color:           #1d2021;
-    border-color:               #1d2021;
+    background-color:           #282828;
+    border-color:               #282828;
     text-color:                 #ebdbb2;
-    height:                     20px;
-    font:                       "JetBrainsMono Nerd Font Bold 8.5";
-    prompt-font:                "JetBrainsMono Nerd Font Bold 8.5";
+    height:                     22px;
+    font:                       "Hack Nerd Font Bold 8.5";
+    prompt-font:                "Hack Nerd Font Bold 8.5";
     prompt-background:          #fe8019;
     prompt-foreground:          #ffffff;
     prompt-padding:             2px;

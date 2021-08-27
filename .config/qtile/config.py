@@ -1,3 +1,11 @@
+#  _               _  __
+# (_)_ __ ___   __| |/ /_
+# | | '_ ` _ \ / _` | '_ \
+# | | | | | | | (_| | (_) |
+# |_|_| |_| |_|\__,_|\___/
+#
+# imd6 qtile config
+
 # -*- coding: utf-8 -*-
 import os
 import re
@@ -18,6 +26,8 @@ from battery import bat_stat
 mod = "mod4"                                     # Sets mod key to SUPER/WINDOWS
 myTerm = "alacritty"                             # My terminal of choice
 myConfig = "/home/ibnu/.config/qtile/config.py"    # The Qtile config file location
+
+############# KEYBINDINGS ##############
 
 keys = [
     ### The essentials
@@ -198,13 +208,13 @@ keys = [
                  desc='Launch dmenu Start Menu'
                  )
              ]),
-    ###KeyChoerd For Scratchpads
+    ###KeyChord For Scratchpads
         KeyChord([mod], "s",[
             Key([], "m",
                   lazy.group["spd"].dropdown_toggle("music"),
                   desc='Open cmus on scratchpads'
                   ),
-            Key([], "n",
+            Key([], "w",
                   lazy.group["spd"].dropdown_toggle("wp"),
                   desc='Open nitrogen on scratchpads'
                   ),
@@ -213,9 +223,12 @@ keys = [
                   desc='Open vifm on scratchpads'
                   )
              ]),
-
-
 ]
+
+############# END OF KEYBINDINGS ##############
+
+
+############# WORKSPACES AND SCRATCHPADS ##############
 
 groups = [
     ScratchPad(
@@ -225,7 +238,7 @@ groups = [
             # it is placed in the upper third of screen by default.
             DropDown(
                 "music",
-                myTerm + " -e cmus",
+                myTerm + " --class dropdown -e cmus",
                 height=0.6,
                 on_focus_lost_hide=False,
                 opacity=0.8,
@@ -233,7 +246,7 @@ groups = [
             ),
            DropDown(
                 "fm",
-                myTerm + " -e vifm",
+                myTerm + " --class dropdown -e vifm",
                 height=0.6,
                 on_focus_lost_hide=False,
                 opacity=0.8,
@@ -249,17 +262,21 @@ groups = [
             ),
         ],
     ),
-    Group("1", label="WWW", layout="monadtall", matches =[Match(wm_class=["qutebrowser"]),
+    Group("1", label="I", layout="monadtall", matches =[Match(wm_class=["qutebrowser"]),
                                                           Match(wm_class=["Google-chrome"])
                                                           ]),
-    Group("2", label="DEV", layout="monadtall", matches =[Match(wm_class=["Emacs"]),
+    Group("2", label="II", layout="monadtall", matches =[Match(wm_class=["Emacs"]),
                                                           Match(wm_class=["code"])
                                                           ]),
-    Group("3", label="DOC", layout="monadtall", matches =[Match(wm_class=["libreoffice"])
+    Group("3", label="III", layout="monadtall", matches =[Match(wm_class=["libreoffice"])
                                                           ]),
-    Group("4", label="VID", layout="monadtall", matches =[Match(wm_class=["mpv"])
+    Group("4", label="IV", layout="monadtall", matches =[Match(wm_class=["mpv"])
                                                           ]),
-    Group("5", label="GFX", layout="monadtall", matches =[Match(wm_class=["gimp"])
+    Group("5", label="V", layout="monadtall", matches =[Match(wm_class=["gimp"])
+                                                          ]),
+    Group("6", label="VI", layout="monadtall", matches =[Match()
+                                                          ]),
+    Group("7", label="VII", layout="monadtall", matches =[Match()
                                                           ]),
 
 
@@ -283,7 +300,13 @@ for i in range(len(groups)):
 #    keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
 #    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group
 
-layout_theme = {"border_width": 1,
+############# END OF WORKSPACES AND SCRATCHPADS ##############
+
+
+
+############# LAYOUTS SETTINGS ##############
+
+layout_theme = {"border_width": 2,
                 "margin":8,
                 "border_focus": "fe8019",
                 "border_normal": "1D2021"
@@ -302,9 +325,9 @@ layouts = [
     #layout.Matrix(**layout_theme),
     #layout.Zoomy(**layout_theme),
     layout.MonadTall(**layout_theme),
-    layout.MonadWide(**layout_theme),
+    #layout.MonadWide(**layout_theme),
     layout.Max(**layout_theme),
-    #layout.Bsp(**layout_theme),
+    #layout.Bsp(**layout_theme, fair=False),
     #layout.Tile(shift_windows=True, **layout_theme),
     #layout.Stack(num_stacks=2),
     #layout.TreeTab(
@@ -339,10 +362,12 @@ colors = [["#1D2021", "#1D2021"], # dark bg
 
 prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
 
-##### DEFAULT WIDGET SETTINGS #####
+############# END OF LAYOUTS SETTINGS ##############
+
+############# WIDGETS SETTINGS ##############
 widget_defaults = dict(
-    font="JetBrainsMono Nerd Font Bold",
-    #font="SauceCodePro Nerd Font Bold",
+    #font="JetBrainsMono Nerd Font Bold",
+    font="Hack Nerd Font Bold",
     fontsize = 12,
     padding = 2,
 )
@@ -352,20 +377,21 @@ def init_widgets_list():
     widgets_list = [
             widget.Sep(
                 linewidth = 0,
-                padding = 5,
+                padding = 2,
                 foreground = colors[2],
                 ),
             #widget.TextBox(
                 #fontsize = 17,
+                #text = "",
                 #text = "",
-                #text = "",
+                #text = "",
                 #foreground = colors[6],
-                #padding = 8,
-                #mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\"')}
+                #mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('/home/ibnu/.scripts/dstartmenu')},
+                #padding = 6,
                 #),
             widget.Image(
                 filename = "~/.config/qtile/icons/archicon-orange.png",
-                mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\"')}
+                mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('/home/ibnu/.scripts/dstartmenu')}
                 ),
             widget.TextBox(
                 text = "|",
@@ -446,7 +472,7 @@ def init_widgets_list():
               #Separation between left and right
 
             widget.Systray(
-                icon_size = 16,
+                icon_size = 15,
                 padding = 3
                 ),
             widget.TextBox(
@@ -577,12 +603,18 @@ def init_widgets_list():
               ]
     return widgets_list
 
+############# END OF WIDGETS SETTINGS ##############
+
+
+############# LAYOUT AND WINDOW BEHAVIOUR #############
+
 def init_widgets_screen():
     widgets_screen = init_widgets_list()
     return widgets_screen
 
 def init_screens():
-    return [Screen(top=bar.Bar(widgets=init_widgets_screen(), opacity=1.0, size=20, background="#282828"))]
+    return [Screen(top=bar.Bar(widgets=init_widgets_screen(), opacity=1.0, size=20, background="#282828")),
+            Screen(top=bar.Bar(widgets=init_widgets_screen(), opacity=1.0, size=20, background="#282828"))]
 
 if __name__ in ["config", "__main__"]:
     screens = init_screens()
@@ -653,6 +685,8 @@ floating_layout = layout.Floating(**layout_float
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
+
+############# END OF LAYOUT AND WINDOW BEHAVIOUR #############
 
 @hook.subscribe.startup_once
 def autostart():
