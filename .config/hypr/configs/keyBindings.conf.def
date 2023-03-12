@@ -1,0 +1,81 @@
+# See https://wiki.hyprland.org/Configuring/Keywords/ for more
+$mainMod = SUPER
+$mainTerm = kitty
+
+# Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
+bind = $mainMod, Return, exec, $mainTerm
+bind = $mainMod SHIFT, C, killactive,
+bind = $mainMod SHIFT, Q, exit,
+bind = $mainMod, F, togglefloating,
+bind = $mainMod SHIFT, Return, exec, rofi -show drun
+bind = $mainMod, up, pseudo, # dwindle
+bind = $mainMod, down, togglesplit, # dwindle
+
+
+#Screenshot
+bind = $mainMod, Print, exec, grim "$HOME/Pictures/Screenshot/$(date '+%y%m%d_%H-%M-%S').png"
+bind = $mainMod SHIFT, Print, exec, grim -g "$(slurp)" "$HOME/Pictures/Screenshot/$(date '+%y%m%d_%H-%M-%S').png"
+
+# Scripts
+bind = $mainMod, S, exec, /home/ibnu/.scripts/dstartmenu
+
+# Change layout
+bind = $mainMod, SPACE, fullscreen # Fullscreen focused window
+
+
+# Move focus with mainMod
+bind = $mainMod, H, movefocus, l
+bind = $mainMod, J, movefocus, d
+bind = $mainMod, K, movefocus, u
+bind = $mainMod, L, movefocus, r
+
+# Move focused window
+bind = $mainMod SHIFT, H, movewindow, l
+bind = $mainMod SHIFT, J, movewindow, d
+bind = $mainMod SHIFT, K, movewindow, u
+bind = $mainMod SHIFT, L, movewindow, r
+
+# Resize focused window
+bind = $mainMod CTRL, H, resizeactive, -40 0
+bind = $mainMod CTRL, J, resizeactive, 0 40
+bind = $mainMod CTRL, K, resizeactive, 0 -40
+bind = $mainMod CTRL, L, resizeactive, 40 0
+
+
+# Switch workspaces with mainMod + [0-9]
+bind = $mainMod, 1, workspace, 1
+bind = $mainMod, 2, workspace, 2
+bind = $mainMod, 3, workspace, 3
+bind = $mainMod, 4, workspace, 4
+bind = $mainMod, 5, workspace, 5
+bind = $mainMod, 6, workspace, 6
+bind = $mainMod, 7, workspace, 7
+
+# Move active window to a wcorkspace with mainMod + SHIFT + [0-9]
+bind = $mainMod SHIFT, 1, movetoworkspace, 1
+bind = $mainMod SHIFT, 2, movetoworkspace, 2
+bind = $mainMod SHIFT, 3, movetoworkspace, 3
+bind = $mainMod SHIFT, 4, movetoworkspace, 4
+bind = $mainMod SHIFT, 5, movetoworkspace, 5
+bind = $mainMod SHIFT, 6, movetoworkspace, 6
+bind = $mainMod SHIFT, 7, movetoworkspace, 7
+
+# Scroll through existing workspaces with mainMod + scroll
+bind = $mainMod, mouse_down, workspace, e+1
+bind = $mainMod, mouse_up, workspace, e-1
+
+# Move/resize windows with mainMod + LMB/RMB and dragging
+bindm = $mainMod, mouse:272, movewindow
+bindm = $mainMod, mouse:273, resizewindow
+
+# Media Keys
+bindle = ,XF86AudioRaiseVolume,exec,~/.scripts/voland up
+bindle = ,XF86AudioLowerVolume,exec,~/.scripts/voland down
+bindle = ,XF86AudioMute,exec,~/.scripts/voland mute
+bindle = ,XF86MonBrightnessUp,exec, ~/.scripts/brightland up
+bindle = ,XF86MonBrightnessDown,exec, ~/.scripts/brightland down
+bindl  = ,XF86AudioMedia,exec,playerctl play-pause
+bindl  = ,XF86AudioPlay,exec,playerctl play-pause
+bindl  = ,XF86AudioStop,exec,playerctl stop
+bindl  = ,XF86AudioPrev,exec,playerctl previous
+bindl  = ,XF86AudioNext,exec,playerctl next

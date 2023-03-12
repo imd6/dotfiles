@@ -1,0 +1,7 @@
+configuration {
+ modi: "window,drun,ssh,combi";
+ font: "ubuntu 10";
+ combi-modi: "window,drun,ssh";
+ }
+//@theme "~/.config/rofi/themes/dt-dmenu.rasi"
+@theme "/usr/share/rofi/themes/gruvbox-dark.rasi"
