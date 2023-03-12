@@ -5,10 +5,10 @@
 
 icon_path=/home/ibnu/.local/share/icons/Gruvbox-Material-Dark/symbolic/status/
 notify_id=817
-
+device=intel_backlight
 
 function get_brightness {
-    light -G
+    brightnessctl -m -d $device | awk -F, '{print substr($4, 0, length($4)-1)}'
 }
 
 function brightness_notification {
@@ -21,11 +21,11 @@ function brightness_notification {
 
 case $1 in
     up)
-        light -A 5
+        brightnessctl s 5%+ -d $device
         brightness_notification
         ;;
     down)
-        light -U 5
+        brightnessctl s 5%- -d $device
         brightness_notification
 	    ;;
     *)

@@ -10,24 +10,42 @@
 # - Save this file as power.sh or anything
 # - Give it exec priviledge, or chmod +x /path/to/power.sh
 # - Run it
+#
 
-chosen=$(echo -e "Cancel\nLogout\nShutdown\nReboot\nSleep\nHibernate\nHybrid-sleep\nSuspend-then-hibernate" | rofi -dmenu -l 5 -p "Start Menu :")
-#chosen=$(echo -e "[Cancel]\nLogout\nShutdown\nReboot\nSleep\nHibernate\nHybrid-sleep\nSuspend-then-hibernate" | dmenu -l 5 -p "Start Menu :")
+cancel="Cancel"
+logoutt="  Logout"
+shutdown="  Shutdown"
+reboot="  Reboot"
+sleepp="  Sleep"
+
+
+
+chosen=$(echo -e "$cancel\n$logoutt\n$shutdown\n$reboot\n$sleepp" | rofi -dmenu -l 5 -p "Start Menu")
 # Info about some states are available here:
 # https://www.freedesktop.org/software/systemd/man/systemd-sleep.conf.html#Description
 
-if [[ $chosen = "Logout" ]]; then
-	xdotool key "super+shift+q"
-elif [[ $chosen = "Shutdown" ]]; then
-	systemctl poweroff
-elif [[ $chosen = "Reboot" ]]; then
-	systemctl reboot
-elif [[ $chosen = "Sleep" ]]; then
-	systemctl suspend
-elif [[ $chosen = "Hibernate" ]]; then
-	systemctl hibernate
-elif [[ $chosen = "Hybrid-sleep" ]]; then
-	systemctl hibernate
-elif [[ $chosen = "Suspend-then-hibernate" ]]; then
-	systemctl suspend-then-hibernate
+if [[ $chosen = $logoutt ]]; then
+	kill -9 -1
+elif [[ $chosen = $shutdown ]]; then
+	loginctl poweroff
+elif [[ $chosen = $reboot ]]; then
+	loginctl reboot
+elif [[ $chosen = $sleepp ]]; then
+	loginctl suspend && swaylock \
+	--color 282828 \
+	--clock \
+	--indicator \
+	--indicator-radius 100 \
+	--indicator-thickness 7 \
+	--effect-blur 7x5 \
+	--effect-vignette 0.5:0.5 \
+	--ring-color fe8019 \
+	--key-hl-color 880033 \
+	--line-color 00000000 \
+	--inside-color 00000088 \
+	--separator-color 00000000 \
+	--grace 2 \
+	--fade-in 0.2
 fi
+
+

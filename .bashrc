@@ -5,7 +5,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 #colorscript -r
-./fm6000 -r -c random -f tux.txt -n
 
 alias ls='ls --color=auto'
 alias gantinvidia='optimus-manager --switch nvidia'
@@ -18,5 +17,5 @@ PS1='\W -> '
 
 export PATH="$HOME/.local/bin:$PATH"
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/ibnu/.sdkman"
-[[ -s "/home/ibnu/.sdkman/bin/sdkman-init.sh" ]] && source "/home/ibnu/.sdkman/bin/sdkman-init.sh"
+#export SDKMAN_DIR="/home/ibnu/.sdkman"
+#[[ -s "/home/ibnu/.sdkman/bin/sdkman-init.sh" ]] && source "/home/ibnu/.sdkman/bin/sdkman-init.sh"

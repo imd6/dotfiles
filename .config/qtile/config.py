@@ -45,7 +45,7 @@ keys = [
             ),
         Key([mod, "shift"], "Return",
             #lazy.spawn("dmenu_run -p 'Run: '"),
-            lazy.spawn("rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\""),
+            lazy.spawn("rofi -show drun \"Run: \""),
             desc='Run Launcher'
             ),
         Key([mod], "q",
@@ -166,19 +166,19 @@ keys = [
             desc='Toggle Audio'
             ),
         Key([], "XF86AudioLowerVolume",
-            lazy.spawn("/home/ibnu/.scripts/volumeControl.sh down"),
+            lazy.spawn("/home/ibnu/.scripts/voland down"),
             desc='Lower Volume'
             ),
         Key([], "XF86AudioRaiseVolume",
-            lazy.spawn("/home/ibnu/.scripts/volumeControl.sh up"),
+            lazy.spawn("/home/ibnu/.scripts/voland up"),
             desc='Raise volume'
             ),
         Key([], "XF86MonBrightnessUp",
-            lazy.spawn("/home/ibnu/.scripts/brightnessControl.sh up"),
+            lazy.spawn("/home/ibnu/.scripts/brightland up"),
             desc='Raise Brightness'
             ),
         Key([], "XF86MonBrightnessDown",
-            lazy.spawn("/home/ibnu/.scripts/brightnessControl.sh down"),
+            lazy.spawn("/home/ibnu/.scripts/brightland down"),
             desc='Raise Brightness'
             ),
         Key([], "XF86Sleep",
@@ -366,8 +366,7 @@ prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
 
 ############# WIDGETS SETTINGS ##############
 widget_defaults = dict(
-    #font="JetBrainsMono Nerd Font Bold",
-    font="Hack Nerd Font Bold",
+    font="JetBrainsMono Nerd Font Bold",
     fontsize = 12,
     padding = 2,
 )
@@ -481,13 +480,13 @@ def init_widgets_list():
                 padding = 3
                 ),
             widget.Net(
-                interface = "wlp3s0",
+                interface = "wlan0",
                 format = ' {up}',
                 foreground = colors[1],
                 padding = 0
                 ),
             widget.Net(
-                interface = "wlp3s0",
+                interface = "wlan0",
                 format = ' {down}',
                 foreground = colors[1],
                 padding = 3
@@ -537,56 +536,56 @@ def init_widgets_list():
                 foreground = colors[10],
                 padding = 3
                 ),
-            widget.TextBox(
-                fontsize = 14,
-                text = "",
-                foreground = colors[4],
-                mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('pavucontrol')},
-                padding = 5
-                ),
-            widget.TextBox(
-                text = "vol:",
-                foreground = colors[4],
-                mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('pavucontrol')},
-                padding = 3
-                ),
+         #   widget.TextBox(
+         #       fontsize = 14,
+         #       text = "",
+         #       foreground = colors[4],
+         #       mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('pavucontrol')},
+         #       padding = 5
+         #       ),
+         #   widget.TextBox(
+         #       text = "vol:",
+         #       foreground = colors[4],
+         #       mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('pavucontrol')},
+         #       padding = 3
+         #       ),
             #widget.Volume(
                 #theme_path = '/home/ibnu/.config/qtile/icons/volume-icons',
                 #foreground = colors[4],
                 #padding = 3
                 #),
-            widget.Volume(
-                foreground = colors[4],
-                padding = 3
-                ),
-            widget.TextBox(
-                text = "|",
-                foreground = colors[10],
-                padding = 3
-                ),
-            widget.GenPollText(
-                foreground=colors[5],
-                fontsize=13.7,
-                func=bat_stat,
-                update_interval=3,
-                mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('mate-power-preferences')},
-                padding=5
-                ),
-            widget.Battery(
-                #battery = "BAT0",
-                #format ='{char} {percent:2.0%}',
-                #format ='{char} {percent:2.0%} {hour:d}h:{min:02d}m',
-                format ='batt: {percent:2.0%}',
-                foreground = colors[5],
-                padding = 3,
-                update_interval=3,
-                mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('mate-power-preferences')},
-                ),
-            widget.TextBox(
-                text = "|",
-                foreground = colors[10],
-                padding = 3
-                ),
+         #   widget.Volume(
+         #       foreground = colors[4],
+         #       padding = 3
+         #       ),
+         #   widget.TextBox(
+         #       text = "|",
+         #       foreground = colors[10],
+         #       padding = 3
+         #       ),
+           # widget.GenPollText(
+           #     foreground=colors[5],
+           #     fontsize=13.7,
+           #     func=bat_stat,
+           #     update_interval=3,
+           #     mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('mate-power-preferences')},
+           #     padding=5
+           #     ),
+           # widget.Battery(
+           #     #battery = "BAT0",
+           #     #format ='{char} {percent:2.0%}',
+           #     #format ='{char} {percent:2.0%} {hour:d}h:{min:02d}m',
+           #     format ='batt: {percent:2.0%}',
+           #     foreground = colors[5],
+           #     padding = 3,
+           #     update_interval=3,
+           #     mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('mate-power-preferences')},
+           #     ),
+           # widget.TextBox(
+           #     text = "|",
+           #     foreground = colors[10],
+           #     padding = 3
+           #     ),
             widget.TextBox(
                 fontsize = 15,
                 text = "",

@@ -23,4 +23,4 @@ call plug#end()
 
 colorscheme gruvbox
 set background=dark
-let g:airline_theme='tokyonight'
+let g:airline_theme='gruvbox'

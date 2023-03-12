@@ -1,6 +1,17 @@
-#Default Start
-/usr/bin/colorscript -r
+##  _               _  __
+## (_)_ __ ___   __| |/ /_
+## | | '_ ` _ \ / _` | '_ \
+## | | | | | | | (_| | (_) |
+## |_|_| |_| |_|\__,_|\___/
+##
+# imd6 .zshrc file
+
+
+#/usr/bin/colorscript -r
 #./fm6000
+neofetch
+#rxfetch
+
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -26,9 +37,11 @@ _comp_options+=(globdots)		# Include hidden files.
 #Aliases
 alias gantinvidia='optimus-manager --switch nvidia'
 alias warnamalam='redshift -l -90.0:90.0 -t 3400:3400 &'
+alias baru="xhost + local:" # xhost +si:localuser:root
 alias ..='cd ..'
 alias mv='mv -i'
 alias rm='rm -i'
+alias pacup="sudo pacman -Syyu"
 
 alias vim="nvim"
 alias em="/usr/bin/emacs -nw"
@@ -81,11 +94,16 @@ preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 #PATH
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.scripts:$PATH"
 
 eval "$(starship init zsh)"
+
+
 #Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 
+
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/ibnu/.sdkman"
-[[ -s "/home/ibnu/.sdkman/bin/sdkman-init.sh" ]] && source "/home/ibnu/.sdkman/bin/sdkman-init.sh"
+#export SDKMAN_DIR="/home/ibnu/.sdkman"
+#[[ -s "/home/ibnu/.sdkman/bin/sdkman-init.sh" ]] && source "/home/ibnu/.sdkman/bin/sdkman-init.sh"
