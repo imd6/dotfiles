@@ -1,0 +1,53 @@
+#!/bin/bash
+
+volume=$(pamixer --get-volume)
+icon_path=/usr/share/icons/Gruvbox-Material-Dark/symbolic/status/
+
+
+function get_volume_icon {
+    if [ "$volume" -lt 34 ]
+    then
+        echo -n "audio-volume-low-symbolic.svg"
+    elif [ "$volume" -lt 67 ]
+    then
+        echo -n "audio-volume-medium-symbolic.svg"
+    elif [ "$volume" -le 100 ]
+    then
+        echo -n "audio-volume-high-symbolic.svg"
+    else
+        echo -n "audio-volume-overamplified-symbolic.svg"
+    fi
+}
+
+function volume_notification {
+    vol_icon=`get_volume_icon`
+    notify-send -a "VOLUME" "Volume: $volume%" -h int:value:"$volume" -i ${icon_path}${vol_icon} -r 2593 -u normal
+}
+
+down() {
+pamixer -u
+pamixer -d 5 --allow-boost
+volume_notification
+canberra-gtk-play -i audio-volume-change -d "changevolume"
+}
+
+up() {
+pamixer -u
+pamixer -i 5 --allow-boost
+volume_notification
+canberra-gtk-play -i audio-volume-change -d "changevolume"
+}
+
+mute() {
+DEFAULT_SINK=$(pactl info | grep "Default Sink" | cut -d " " -f3)
+pactl set-sink-mute "$DEFAULT_SINK" toggle
+notify-send -a "VOLUME" "MUTED" -h int:value:"$volume" -i ${icon_path}audio-volume-muted-symbolic.svg -r 2593 -u normal
+canberra-gtk-play -i audio-volume-change -d "changevolume"
+}
+
+case "$1" in
+  up) up;;
+  down) down;;
+  mute) mute;;
+esac
+

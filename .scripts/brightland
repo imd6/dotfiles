@@ -1,0 +1,34 @@
+#!/bin/bash
+
+
+icon_path=/usr/share/icons/Gruvbox-Material-Dark/symbolic/status/
+brightness=$(printf "%.0f\n" $(brillo -G))
+
+function get_icon {
+    if [ "$brightness" -lt 34 ]
+    then
+        echo -n "display-brightness-low-symbolic.svg"
+    elif [ "$brightness" -lt 67 ]
+    then
+        echo -n "display-brightness-medium-symbolic.svg"
+    elif [ "$brightness" -le 100 ]
+    then
+        echo -n "display-brightness-high-symbolic.svg"
+    fi
+}
+
+function send_notification() {
+    get_icons=`get_icon`
+	notify-send -a "changebrightness" -u low -r 9991 -h int:value:"$brightness" -i ${icon_path}${get_icons} "Brightness: $brightness%" -t 2000
+}
+
+case $1 in
+up)
+	brillo -A 5 -q
+	send_notification $1
+	;;
+down)
+	brillo -U 5 -q
+	send_notification $1
+	;;
+esac
